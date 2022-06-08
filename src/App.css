@@ -1,0 +1,6 @@
+@import url('~antd/dist/antd.css');
+
+.container {
+    width: 60%;
+    margin: auto;
+}
