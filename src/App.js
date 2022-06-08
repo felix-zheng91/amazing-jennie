@@ -8,21 +8,11 @@ const { Search } = Input;
 
 class App extends Component {
   state = {
-    dataSource: [
-      // {
-      //   key: "1",
-      //   name: "胡彦斌",
-      //   age: 32,
-      //   address: "西湖区湖底公园1号",
-      // },
-      // {
-      //   key: "2",
-      //   name: "胡彦祖",
-      //   age: 42,
-      //   address: "西湖区湖底公园1号",
-      // },
-    ],
-
+    value: "",
+    total: 0,
+    pageSize: 1,
+    current: 1,
+    dataSource: [],
     columns: [
       {
         title: "姓名",
@@ -71,10 +61,17 @@ class App extends Component {
   };
 
   loadDataSource = async () => {
-    const res = await axios.get("http://localhost:8080/user/list");
-    // console.log(res);
+    const res = await axios.get("http://localhost:8080/user/list", {
+      params: {
+        realName: this.state.value,
+        pageSize: this.state.pageSize,
+        current: this.state.current,
+      },
+    });
+    console.log(res);
     this.setState({
-      dataSource: res.data.data,
+      dataSource: res.data.data.records,
+      total: res.data.data.total,
     });
   };
 
@@ -87,11 +84,37 @@ class App extends Component {
     const res = await axios.get("http://localhost:8080/user/list", {
       params: {
         realName: value,
+        pageSize: this.state.pageSize,
+        current: 1,
       },
     });
 
     this.setState({
-      dataSource: res.data.data,
+      dataSource: res.data.data.records,
+      total: res.data.data.total,
+    });
+  };
+
+  changePage = async (current, pageSize) => {
+    const res = await axios.get("http://localhost:8080/user/list", {
+      params: {
+        realName: this.state.value,
+        pageSize: pageSize,
+        current: current,
+      },
+    });
+
+    this.setState({
+      dataSource: res.data.data.records,
+      total: res.data.data.total,
+      current: current,
+      pageSize: pageSize,
+    });
+  };
+
+  searchChange = (e) => {
+    this.setState({
+      value: e.target.value,
     });
   };
 
@@ -102,6 +125,7 @@ class App extends Component {
           style={{ marginTop: "20px" }}
           placeholder="input search text"
           onSearch={this.onSearch}
+          onChange={this.searchChange}
           enterButton
         />
 
@@ -113,6 +137,16 @@ class App extends Component {
           dataSource={this.state.dataSource}
           columns={this.state.columns}
           rowKey="id"
+          bordered={true}
+          pagination={{
+            showSizeChanger: true,
+            onChange: this.changePage,
+            onShowSizeChange: this.changePage,
+            defaultCurrent: 1,
+            defaultPageSize: 1,
+            total: this.state.total,
+            pageSizeOptions: [1, 5, 10, 20, 50, 100],
+          }}
         />
       </div>
     );
