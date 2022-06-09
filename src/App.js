@@ -1,18 +1,37 @@
-import React from "react";
-import { useWindowScroll } from "./hooks/useWindowScroll";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import React, { Component, useEffect, useRef } from "react";
+
+// useRef
+class TestComponent extends Component {
+  state = {
+    msg: "Test MSG",
+  };
+
+  logInfo = () => {
+    console.log(this.state.msg);
+  };
+
+  render() {
+    return <div>Test Component</div>;
+  }
+}
 
 function App() {
-  const [y] = useWindowScroll();
-  const [message, setMessage] = useLocalStorage("Hook-key", "寻欢");
+  const ref = useRef(null);
+  const h1 = useRef(null);
 
-  setTimeout(() => {
-    setMessage("阿飞");
-  }, 5000);
+  useEffect(() => {
+    console.log(ref);
+    console.log(h1);
+    ref.current.logInfo();
+    console.log(h1.current);
+    console.log(ref.current.state.msg);
+    return () => {};
+  }, []);
 
   return (
-    <div style={{ height: "1200px" }}>
-      {y}:{message}
+    <div>
+      <TestComponent ref={ref} />
+      <h1 ref={h1}>this is h1</h1>
     </div>
   );
 }
