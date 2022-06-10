@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useWindowScroll } from "./hooks/useWindowScroll";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useWindowScroll } from "../hooks/useWindowScroll";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 function Counter({ countInit }) {
   // useState 可以传入函数，处理复杂初始值

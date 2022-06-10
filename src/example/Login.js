@@ -6,8 +6,9 @@ function Login() {
   const navigate = useNavigate();
 
   function login() {
-    // 调用跳转函数
-    navigate("/", { replace: true });
+    // 调用跳转函数,使用replace 参数防止后退
+    // navigate("/about?id=111", { replace: true });
+    navigate("/about/111", { replace: true });
   }
   return (
     <div>
