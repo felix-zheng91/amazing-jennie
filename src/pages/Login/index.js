@@ -2,12 +2,17 @@ import React from "react";
 import { Button, Card, Checkbox, Form, Input } from "antd";
 import logo from "@/assets/logo.png";
 import "./index.scss";
+import { useStore } from "@/store";
+import { observer } from "mobx-react-lite";
 
 function Login() {
+  const { loginStore } = useStore();
+
   const onFinish = (values) => {
     console.log("Success:", values);
+    loginStore.getToken({ mobile: values.mobile, code: values.code });
+    console.log(loginStore.token);
   };
-
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -33,7 +38,7 @@ function Login() {
           autoComplete="off"
         >
           <Form.Item
-            name="phone"
+            name="mobile"
             rules={[
               {
                 required: true,
@@ -47,16 +52,16 @@ function Login() {
           </Form.Item>
 
           <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/,
-                message: "请输入密码！",
-              },
-            ]}
+            name="code"
+            // rules={[
+            //   {
+            //     required: true,
+            //     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/,
+            //     message: "请输入验证码！",
+            //   },
+            // ]}
           >
-            <Input.Password placeholder={"请输入密码"} />
+            <Input placeholder={"请输入验证码"} />
           </Form.Item>
 
           <Form.Item
@@ -66,13 +71,6 @@ function Login() {
             //   offset: 8,
             //   span: 16,
             // }}
-            rules={[
-              {
-                required: true,
-                pattern: [true],
-                message: "请勾选同意",
-              },
-            ]}
           >
             <Checkbox>我已阅读并同意【用户协议】和隐【隐私条款】</Checkbox>
           </Form.Item>
@@ -95,4 +93,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default observer(Login);
