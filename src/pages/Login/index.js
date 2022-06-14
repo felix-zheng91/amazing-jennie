@@ -1,17 +1,23 @@
 import React from "react";
-import { Button, Card, Checkbox, Form, Input } from "antd";
+import { Button, Card, Checkbox, Form, Input, message } from "antd";
 import logo from "@/assets/logo.png";
 import "./index.scss";
 import { useStore } from "@/store";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { loginStore } = useStore();
-
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    loginStore.getToken({ mobile: values.mobile, code: values.code });
-    console.log(loginStore.token);
+  const navigate = useNavigate();
+  const onFinish = async (values) => {
+    try {
+      await loginStore.getToken({ mobile: values.mobile, code: values.code });
+      console.log(loginStore.token);
+      navigate("/", { replace: true });
+      message.success("Login Success");
+    } catch (e) {
+      message.error(e.response?.data?.message || "Login Failed");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
