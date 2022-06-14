@@ -72,7 +72,7 @@ function Login() {
             //   span: 16,
             // }}
           >
-            <Checkbox>我已阅读并同意【用户协议】和隐【隐私条款】</Checkbox>
+            <Checkbox>我已阅读并同意【用户协议】和【隐私条款】</Checkbox>
           </Form.Item>
 
           <Form.Item
@@ -83,7 +83,7 @@ function Login() {
               }
             }
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" block>
               登录
             </Button>
           </Form.Item>
