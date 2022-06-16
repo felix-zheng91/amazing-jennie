@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "@/pages/Login";
-import Layout from "@/pages/Layout";
 import AuthComponent from "@/components/AuthComponent";
+import Layout from "@/pages/Layout";
+import "./App.css";
 
 function App() {
   return (
