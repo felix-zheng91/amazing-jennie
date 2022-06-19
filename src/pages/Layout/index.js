@@ -6,6 +6,10 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { useStore } from "@/store";
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
 const { Header, Sider } = Layout;
 
@@ -16,21 +20,42 @@ function getItem(label, key, icon) {
     label,
   };
 }
+
 const menuItems = [
-  getItem("数据概览", 1, <HomeOutlined />),
-  getItem("内容管理", 2, <DiffOutlined />),
-  getItem("发布文章", 3, <EditOutlined />),
+  getItem(<Link to={"/"}>数据概览</Link>, "/", <HomeOutlined />),
+  getItem(<Link to={"/article"}>内容管理</Link>, "/article", <DiffOutlined />),
+  getItem(<Link to={"/publish"}>发布文章</Link>, "/publish", <EditOutlined />),
 ];
 
 const GeekLayout = () => {
+  const location = useLocation();
+  const { userStore, loginStore } = useStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      userStore.getUserInfo().then();
+    };
+  }, [userStore]);
+
+  const logout = () => {
+    loginStore.logout();
+    navigate("/login");
+  };
+
   return (
     <Layout>
       <Header className={"header"}>
         <div className="logo"></div>
         <div className="user-info">
-          <span className="username">user.name</span>
+          <span className="username">{userStore.userInfo.name}</span>
           <span className="user-logout">
-            <Popconfirm title={"确认退出?"} okText={"退出"} cancelText={"取消"}>
+            <Popconfirm
+              title={"确认退出?"}
+              onConfirm={logout}
+              okText={"退出"}
+              cancelText={"取消"}
+            >
               <LogoutOutlined /> 退出
             </Popconfirm>
           </span>
@@ -42,16 +67,17 @@ const GeekLayout = () => {
             items={menuItems}
             mode={"inline"}
             theme={"dark"}
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={[location.pathname]}
             style={{ height: "100%", borderRight: 0 }}
           ></Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
-          内容
+          <Outlet></Outlet>
         </Layout>
       </Layout>
     </Layout>
   );
 };
 
-export default GeekLayout;
+// 使用 mobx 的组件必须 observer 否则无法响应数据变化
+export default observer(GeekLayout);
