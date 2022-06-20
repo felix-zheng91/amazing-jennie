@@ -11,7 +11,7 @@ import {
   Table,
   Tag,
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import "./index.scss";
 import "moment/locale/zh-cn";
@@ -19,7 +19,6 @@ import img404 from "@/assets/error.png";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { http } from "@/utils";
-import axios from "axios";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -92,6 +91,11 @@ const Article = () => {
     });
   };
 
+  const navigate = useNavigate();
+  const goPublish = (data) => {
+    navigate(`/publish/${data.id}`);
+  };
+
   const columns = [
     {
       title: "封面",
@@ -138,7 +142,12 @@ const Article = () => {
       render: (data) => {
         return (
           <Space size={"middle"}>
-            <Button type={"primary"} shape={"circle"} icon={<EditOutlined />} />
+            <Button
+              type={"primary"}
+              shape={"circle"}
+              icon={<EditOutlined />}
+              onClick={() => goPublish(data)}
+            />
             <Popconfirm
               title={"确认删除？"}
               onConfirm={() => deleteArticle(data)}
