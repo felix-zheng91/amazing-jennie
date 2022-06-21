@@ -10,7 +10,11 @@ class ChannelStore {
 
   loadChannels = async () => {
     const res = await http.get("/channels");
-    this.channels = res.data.channels;
+    this.setChannels(res.data.channels);
+  };
+
+  setChannels = (channels) => {
+    this.channels = channels;
   };
 }
 

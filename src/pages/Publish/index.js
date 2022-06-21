@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import "./index.scss";
 import "react-quill/dist/quill.snow.css";
-import React from "react";
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/store";
@@ -26,6 +26,13 @@ const Publish = () => {
   };
 
   const { channelStore } = useStore();
+
+  const [fileList, setFileList] = useState([]);
+
+  let onUploadChange = (res) => {
+    console.log(res);
+    setFileList([...fileList, res]);
+  };
 
   return (
     <div className="publish">
@@ -84,6 +91,9 @@ const Publish = () => {
               name={"image"}
               listType={"picture-card"}
               className={"avatar-uploader"}
+              action={"http://geek.itheima.net/v1_0/upload"}
+              fileList={fileList}
+              onChange={onUploadChange}
               showUploadList
             >
               <div style={{ marginTop: 8 }}>
