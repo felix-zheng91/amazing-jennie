@@ -24,10 +24,12 @@ function Bar({ title, xData, yData, style }) {
         },
       ],
     });
+    return myChart;
   };
   useEffect(() => {
+    const chart = chartInit();
     return () => {
-      chartInit();
+      chart.dispose();
     };
   }, []);
 

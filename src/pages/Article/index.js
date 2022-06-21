@@ -19,11 +19,13 @@ import img404 from "@/assets/error.png";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { http } from "@/utils";
+import { useStore } from "@/store";
+import { observer } from "mobx-react-lite";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const Article = () => {
-  const [channels, setChannels] = useState([]);
+  const { channelStore } = useStore();
   const [articles, setArticles] = useState({ list: [], count: 0 });
   const { list, count } = articles;
   const [params, setParams] = useState({
@@ -40,16 +42,8 @@ const Article = () => {
         count: total_count,
       });
     };
-    loadArticles();
+    loadArticles().then();
   }, [params]);
-
-  useEffect(() => {
-    const loadChannels = async () => {
-      const res = await http.get("/channels");
-      setChannels(res.data.channels);
-    };
-    loadChannels().then(() => {});
-  }, []);
 
   const submitSearch = (values) => {
     const { channel_id, status, date } = values;
@@ -194,7 +188,7 @@ const Article = () => {
               style={{ width: 160 }}
               allowClear={true}
             >
-              {channels.map((channel) => {
+              {channelStore.channels.map((channel) => {
                 return (
                   <Option key={channel.id} value={channel.id}>
                     {channel.name}
@@ -239,4 +233,4 @@ const Article = () => {
     </div>
   );
 };
-export default Article;
+export default observer(Article);

@@ -14,11 +14,19 @@ import { PlusOutlined } from "@ant-design/icons";
 import "./index.scss";
 import "react-quill/dist/quill.snow.css";
 import React from "react";
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
+import { observer } from "mobx-react-lite";
+import { useStore } from "@/store";
 
 const { Option } = Select;
 
 const Publish = () => {
+  const submitContent = (values) => {
+    console.log(values);
+  };
+
+  const { channelStore } = useStore();
+
   return (
     <div className="publish">
       <Card
@@ -34,7 +42,8 @@ const Publish = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: 1 }}
+          initialValues={{ type: 1, content: "" }}
+          onFinish={submitContent}
         >
           <Form.Item
             label={"标题"}
@@ -53,7 +62,13 @@ const Publish = () => {
               style={{ width: 400 }}
               allowClear
             >
-              <Option value={0}>推荐</Option>
+              {channelStore.channels.map((channel) => {
+                return (
+                  <Option key={channel.id} value={channel.id}>
+                    {channel.name}
+                  </Option>
+                );
+              })}
             </Select>
           </Form.Item>
 
@@ -95,4 +110,4 @@ const Publish = () => {
     </div>
   );
 };
-export default Publish;
+export default observer(Publish);

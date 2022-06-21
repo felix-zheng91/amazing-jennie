@@ -24,8 +24,22 @@ function App() {
             }
           >
             <Route index element={<Home />}></Route>
-            <Route path={"article"} element={<Article />}></Route>
-            <Route path={"publish"} element={<Publish />}></Route>
+            <Route
+              path={"article"}
+              element={
+                <AuthComponent>
+                  <Article />
+                </AuthComponent>
+              }
+            ></Route>
+            <Route
+              path={"publish"}
+              element={
+                <AuthComponent>
+                  <Publish />
+                </AuthComponent>
+              }
+            ></Route>
           </Route>
           <Route path={"/login"} element={<Login />}></Route>
         </Routes>

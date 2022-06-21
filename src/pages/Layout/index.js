@@ -29,13 +29,15 @@ const menuItems = [
 
 const GeekLayout = () => {
   const location = useLocation();
-  const { userStore, loginStore } = useStore();
+  const { userStore, loginStore, channelStore } = useStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    return () => {
-      userStore.getUserInfo().then();
-    };
+    channelStore.loadChannels().then();
+  }, [channelStore]);
+
+  useEffect(() => {
+    userStore.getUserInfo().then();
   }, [userStore]);
 
   const logout = () => {
