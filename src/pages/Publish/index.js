@@ -4,6 +4,7 @@ import {
   Card,
   Form,
   Input,
+  Modal,
   Radio,
   Select,
   Space,
@@ -20,6 +21,16 @@ import { useStore } from "@/store";
 
 const { Option } = Select;
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => resolve(reader.result);
+
+    reader.onerror = (error) => reject(error);
+  });
+
 const Publish = () => {
   const submitContent = (values) => {
     console.log(values);
@@ -27,11 +38,33 @@ const Publish = () => {
 
   const { channelStore } = useStore();
 
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState([]);
+  const [picSize, setPicSize] = useState(1);
 
-  let onUploadChange = (res) => {
-    console.log(res);
-    setFileList([...fileList, res]);
+  const onUploadChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+  const handleCancel = () => setPreviewVisible(false);
+
+  const changePicSize = (event) => {
+    setPicSize(event.target.value);
+    // setFileList(fileList.filter((file) => file.index <= picSize));
+    // console.log(fileList);
   };
 
   return (
@@ -81,7 +114,7 @@ const Publish = () => {
 
           <Form.Item label={"封面"}>
             <Form.Item name={"type"}>
-              <Radio.Group>
+              <Radio.Group onChange={changePicSize} value={picSize}>
                 <Radio value={1}>单图</Radio>
                 <Radio value={3}>三图</Radio>
                 <Radio value={0}>无图</Radio>
@@ -95,11 +128,31 @@ const Publish = () => {
               fileList={fileList}
               onChange={onUploadChange}
               showUploadList
+              onPreview={handlePreview}
+              progress={{ type: "line", showInfo: false }}
+              multiple
+              maxCount={picSize}
             >
-              <div style={{ marginTop: 8 }}>
-                <PlusOutlined />
-              </div>
+              {fileList.length >= picSize ? null : (
+                <div style={{ marginTop: 8 }}>
+                  <PlusOutlined />
+                </div>
+              )}
             </Upload>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img
+                alt="example"
+                style={{
+                  width: "100%",
+                }}
+                src={previewImage}
+              />
+            </Modal>
           </Form.Item>
           <Form.Item
             label={"内容"}
