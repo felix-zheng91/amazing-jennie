@@ -1,5 +1,4 @@
 // 自定义webpack配置文件
-
 const path = require("path");
 
 module.exports = {

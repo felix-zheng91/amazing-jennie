@@ -63,8 +63,6 @@ const Publish = () => {
 
   const changePicSize = (event) => {
     setPicSize(event.target.value);
-    // setFileList(fileList.filter((file) => file.index <= picSize));
-    // console.log(fileList);
   };
 
   return (
