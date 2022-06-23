@@ -28,7 +28,7 @@ const menuItems = [
 ];
 
 const GeekLayout = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const { userStore, loginStore, channelStore } = useStore();
   const navigate = useNavigate();
 
@@ -69,7 +69,8 @@ const GeekLayout = () => {
             items={menuItems}
             mode={"inline"}
             theme={"dark"}
-            defaultSelectedKeys={[location.pathname]}
+            defaultSelectedKeys={pathname}
+            selectedKeys={pathname}
             style={{ height: "100%", borderRight: 0 }}
           ></Menu>
         </Sider>

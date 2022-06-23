@@ -86,8 +86,9 @@ const Article = () => {
   };
 
   const navigate = useNavigate();
+
   const goPublish = (data) => {
-    navigate(`/publish/${data.id}`);
+    navigate(`/publish?id=${data.id}`);
   };
 
   const columns = [

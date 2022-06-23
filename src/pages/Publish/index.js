@@ -4,24 +4,25 @@ import {
   Card,
   Form,
   Input,
-  Modal,
+  message,
   Radio,
   Select,
   Space,
   Upload,
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import "./index.scss";
 import "react-quill/dist/quill.snow.css";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/store";
+import { http } from "@/utils";
 
 const { Option } = Select;
 
-const getBase64 = (file) =>
+/*const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -29,26 +30,82 @@ const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
 
     reader.onerror = (error) => reject(error);
-  });
+  });*/
 
 const Publish = () => {
-  const submitContent = (values) => {
+  const navigator = useNavigate();
+  const [params] = useSearchParams();
+  const id = params.get("id");
+
+  const formRef = useRef();
+
+  useEffect(() => {
+    const loadDetail = async () => {
+      const res = await http.get(`/mp/articles/${id}`);
+      const formData = { ...res.data };
+      const cover = formData.cover;
+      setFileList(
+        cover.images.map((image) => {
+          return { url: image };
+        })
+      );
+      cacheImages.current = cover.images.map((image) => {
+        return { url: image };
+      });
+      formRef.current.setFieldsValue({ ...formData, type: cover.type });
+    };
+    if (id) {
+      loadDetail();
+    }
+    return () => {};
+  }, [id]);
+
+  const cacheImages = useRef([]);
+
+  const submitContent = async (values) => {
     console.log(values);
+    const { channel_id, content, type, title } = values;
+    const images = fileList
+      .map((file) => {
+        return file.url;
+      })
+      .concat();
+    const params = {
+      channel_id,
+      content,
+      type,
+      title,
+      cover: { type: type, images: images },
+    };
+    console.log(params);
+    if (id) {
+      await http.put(`/mp/articles/${id}?draft=false`, params);
+    }
+    await http.post("/mp/articles?draft=false", params);
+
+    navigator("/article");
+    message.success(`${id ? "更新" : "发布"}成功`);
   };
 
   const { channelStore } = useStore();
 
-  const [previewVisible, setPreviewVisible] = useState(false);
+  /*const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");*/
   const [fileList, setFileList] = useState([]);
   const [picSize, setPicSize] = useState(1);
 
-  const onUploadChange = ({ fileList: newFileList }) => {
+  const onUploadChange = ({ fileList }) => {
+    const newFileList = fileList.map((file) => {
+      if (file.response) {
+        return { url: file.response.data.url };
+      }
+      return file;
+    });
     setFileList(newFileList);
   };
 
-  const handlePreview = async (file) => {
+  /*const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -58,11 +115,12 @@ const Publish = () => {
     setPreviewTitle(
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
-  };
-  const handleCancel = () => setPreviewVisible(false);
+  };*/
+  // const handleCancel = () => setPreviewVisible(false);
 
   const changePicSize = (event) => {
     setPicSize(event.target.value);
+    setFileList(cacheImages.current.slice(0, event.target.value));
   };
 
   return (
@@ -73,11 +131,12 @@ const Publish = () => {
             <Breadcrumb.Item>
               <Link to={"/home"}>首页</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>发布文章</Breadcrumb.Item>
+            <Breadcrumb.Item>{id ? "编辑" : "发布"}文章</Breadcrumb.Item>
           </Breadcrumb>
         }
       >
         <Form
+          ref={formRef}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 1, content: "" }}
@@ -126,31 +185,31 @@ const Publish = () => {
               fileList={fileList}
               onChange={onUploadChange}
               showUploadList
-              onPreview={handlePreview}
-              progress={{ type: "line", showInfo: false }}
-              multiple
+              // onPreview={handlePreview}
+              progress={{ type: "line", showInfo: true }}
+              multiple={picSize > 1}
               maxCount={picSize}
             >
-              {fileList.length >= picSize ? null : (
-                <div style={{ marginTop: 8 }}>
-                  <PlusOutlined />
-                </div>
-              )}
+              {/*{fileList.length >= picSize ? null : (*/}
+              <div style={{ marginTop: 8 }}>
+                <PlusOutlined />
+              </div>
+              {/*// )}*/}
             </Upload>
-            <Modal
-              visible={previewVisible}
-              title={previewTitle}
-              footer={null}
-              onCancel={handleCancel}
-            >
-              <img
-                alt="example"
-                style={{
-                  width: "100%",
-                }}
-                src={previewImage}
-              />
-            </Modal>
+            {/*<Modal*/}
+            {/*  visible={previewVisible}*/}
+            {/*  title={previewTitle}*/}
+            {/*  footer={null}*/}
+            {/*  onCancel={handleCancel}*/}
+            {/*>*/}
+            {/*  <img*/}
+            {/*    alt="example"*/}
+            {/*    style={{*/}
+            {/*      width: "100%",*/}
+            {/*    }}*/}
+            {/*    src={previewImage}*/}
+            {/*  />*/}
+            {/*</Modal>*/}
           </Form.Item>
           <Form.Item
             label={"内容"}
@@ -162,7 +221,7 @@ const Publish = () => {
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Space>
               <Button size={"large"} type={"primary"} htmlType={"submit"}>
-                发布文章
+                {id ? "更新" : "发布"}文章
               </Button>
             </Space>
           </Form.Item>
