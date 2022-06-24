@@ -19,11 +19,13 @@ module.exports = {
         webpackConfig.externals = {
           react: "React",
           "react-dom": "ReactDOM",
+          echarts: "echarts",
         };
         cdn = {
           js: [
             "https://unpkg.com/react@18/umd/react.production.min.js",
             "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js",
+            "https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js",
           ],
           css: [],
         };
