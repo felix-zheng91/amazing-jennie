@@ -103,6 +103,7 @@ const Publish = () => {
       return file;
     });
     setFileList(newFileList);
+    cacheImages.current = newFileList;
   };
 
   /*const handlePreview = async (file) => {
