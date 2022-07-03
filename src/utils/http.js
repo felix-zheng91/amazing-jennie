@@ -6,7 +6,7 @@ import { history } from "@/utils/history";
 // 实例化
 const http = axios.create({
   // baseURL: "http://localhost:8080/api",
-  baseURL: "http://geek.itheima.net/v1_0",
+  baseURL: "http://localhost:8080/api",
   timeout: 5000,
 });
 

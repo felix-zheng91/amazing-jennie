@@ -6,11 +6,13 @@ import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { history } from "@/utils/history";
 import { LoadingOutlined } from "@ant-design/icons";
 
+const DetailData = lazy(() => import("@/pages/DetailData"));
 const Home = lazy(() => import("@/pages/Home"));
 const Login = lazy(() => import("@/pages/Login"));
 const Layout = lazy(() => import("@/pages/Layout"));
-const Publish = lazy(() => import("@/pages/Publish"));
-const Article = lazy(() => import("@/pages/Article"));
+const Ad = lazy(() => import("@/pages/Ad"));
+const SkuAsin = lazy(() => import("@/pages/SkuAsin"));
+const AnalyzeData = lazy(() => import("@/pages/AnalyzeData"));
 
 function App() {
   return (
@@ -34,18 +36,34 @@ function App() {
             >
               <Route index element={<Home />}></Route>
               <Route
-                path={"article"}
+                path={"analyze-data"}
                 element={
                   <AuthComponent>
-                    <Article />
+                    <AnalyzeData />
                   </AuthComponent>
                 }
               ></Route>
               <Route
-                path={"publish"}
+                path={"sku-asin"}
                 element={
                   <AuthComponent>
-                    <Publish />
+                    <SkuAsin />
+                  </AuthComponent>
+                }
+              ></Route>
+              <Route
+                path={"ad"}
+                element={
+                  <AuthComponent>
+                    <Ad />
+                  </AuthComponent>
+                }
+              ></Route>
+              <Route
+                path={"detail-data"}
+                element={
+                  <AuthComponent>
+                    <DetailData />
                   </AuthComponent>
                 }
               ></Route>

@@ -22,9 +22,23 @@ function getItem(label, key, icon) {
 }
 
 const menuItems = [
-  getItem(<Link to={"/"}>数据概览</Link>, "/", <HomeOutlined />),
-  getItem(<Link to={"/article"}>内容管理</Link>, "/article", <DiffOutlined />),
-  getItem(<Link to={"/publish"}>发布文章</Link>, "/publish", <EditOutlined />),
+  getItem(<Link to={"/"}>首页</Link>, "/", <HomeOutlined />),
+  getItem(
+    <Link to={"/analyze-data"}>Analyze Data</Link>,
+    "/analyze-data",
+    <DiffOutlined />
+  ),
+  getItem(
+    <Link to={"/sku-asin"}>ASIN 管理</Link>,
+    "/sku-asin",
+    <DiffOutlined />
+  ),
+  getItem(<Link to={"/ad"}>AD 管理</Link>, "/ad", <EditOutlined />),
+  getItem(
+    <Link to={"/detail-data"}>DetailData 管理</Link>,
+    "/detail-data",
+    <EditOutlined />
+  ),
 ];
 
 const GeekLayout = () => {
