@@ -4,7 +4,6 @@ import "antd/dist/antd.min.css";
 import "@ant-design/pro-components/dist/components.css";
 import "./index.scss";
 import App from "./App";
-import columnConstant from "@/constant/columnConstant";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
