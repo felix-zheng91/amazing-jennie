@@ -87,6 +87,10 @@ const Ad = () => {
         style={{ marginBottom: 20 }}
       >
         <ProTable
+          id={"ad-table"}
+          bordered
+          sticky={{ getContainer: () => document.getElementById("ad-table") }}
+          scroll={{ x: 1300 }}
           dataSource={list}
           rowKey={"id"}
           pagination={{

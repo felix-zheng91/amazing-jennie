@@ -87,6 +87,12 @@ const DetailData = () => {
         style={{ marginBottom: 20 }}
       >
         <ProTable
+          id={"detail-table"}
+          bordered
+          sticky={{
+            getContainer: () => document.getElementById("detail-table"),
+          }}
+          scroll={{ x: 1300 }}
           dataSource={list}
           rowKey={"id"}
           pagination={{

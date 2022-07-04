@@ -65,6 +65,12 @@ const AnalyzeData = () => {
         style={{ marginBottom: 20 }}
       >
         <ProTable
+          id={"analyze-table"}
+          scroll={{ x: 1300 }}
+          sticky={{
+            getContainer: () => document.getElementById("analyze-table"),
+          }}
+          bordered
           dataSource={list}
           rowKey={"id"}
           pagination={{
@@ -78,7 +84,7 @@ const AnalyzeData = () => {
             showQuickJumper: true,
           }}
           columns={columnConstant.analyzeDataColumns}
-          search={true}
+          search={false}
           dateFormatter="string"
           headerTitle={`查询到 ${count} 条数据`}
           toolBarRender={() => [
