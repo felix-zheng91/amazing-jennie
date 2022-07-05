@@ -139,7 +139,7 @@ const columnConstant = {
       dataIndex: "sessionPercentageMobile",
       render: (text, record, index) => {
         return record.sessionPercentageMobile
-          ? (record.sessionPercentageMobile * 100).toFixed(2) + "%"
+          ? record.sessionPercentageMobile.toFixed(2) + "%"
           : text;
       },
       width: 80,
@@ -149,7 +149,7 @@ const columnConstant = {
       dataIndex: "sessionPercentageWeb",
       render: (text, record, index) => {
         return record.sessionPercentageWeb
-          ? (record.sessionPercentageWeb * 100).toFixed(2) + "%"
+          ? record.sessionPercentageWeb.toFixed(2) + "%"
           : text;
       },
       width: 80,
@@ -159,7 +159,7 @@ const columnConstant = {
       dataIndex: "sessionPercentageAll",
       render: (text, record, index) => {
         return record.sessionPercentageAll
-          ? (record.sessionPercentageAll * 100).toFixed(2) + "%"
+          ? record.sessionPercentageAll.toFixed(2) + "%"
           : text;
       },
       width: 80,
@@ -168,7 +168,7 @@ const columnConstant = {
       title: "业务报告转化率",
       dataIndex: "cr",
       render: (text, record, index) => {
-        return record.cr ? (record.cr * 100).toFixed(2) + "%" : text;
+        return record.cr ? record.cr.toFixed(2) + "%" : text;
       },
       width: 80,
     },
@@ -178,7 +178,7 @@ const columnConstant = {
       title: "广告点击率",
       dataIndex: "adCtr",
       render: (text, record, index) => {
-        return record.adCtr ? (record.adCtr * 100).toFixed(2) + "%" : text;
+        return record.adCtr ? record.adCtr.toFixed(2) + "%" : text;
       },
       width: 80,
     },
@@ -189,7 +189,7 @@ const columnConstant = {
       title: "广告转化率",
       dataIndex: "adCr",
       render: (text, record, index) => {
-        return record.adCr ? (record.adCr * 100).toFixed(2) + "%" : text;
+        return record.adCr ? record.adCr.toFixed(2) + "%" : text;
       },
       width: 80,
     },
@@ -199,7 +199,7 @@ const columnConstant = {
       title: "广告ACOS",
       dataIndex: "adAcos",
       render: (text, record, index) => {
-        return record.adAcos ? (record.adAcos * 100).toFixed(2) + "%" : text;
+        return record.adAcos ? record.adAcos.toFixed(2) + "%" : text;
       },
       width: 80,
     },
@@ -208,7 +208,7 @@ const columnConstant = {
       dataIndex: "adOrderPercentage",
       render: (text, record, index) => {
         return record.adOrderPercentage
-          ? (record.adOrderPercentage * 100).toFixed(2) + "%"
+          ? record.adOrderPercentage.toFixed(2) + "%"
           : text;
       },
       width: 80,
@@ -217,9 +217,7 @@ const columnConstant = {
       title: "广告费率",
       dataIndex: "adCostRate",
       render: (text, record, index) => {
-        return record.adCostRate
-          ? (record.adCostRate * 100).toFixed(2) + "%"
-          : text;
+        return record.adCostRate ? record.adCostRate.toFixed(2) + "%" : text;
       },
       width: 80,
     },
@@ -228,7 +226,7 @@ const columnConstant = {
       dataIndex: "adSalesAmountPercentage",
       render: (text, record, index) => {
         return record.adSalesAmountPercentage
-          ? (record.adSalesAmountPercentage * 100).toFixed(2) + "%"
+          ? record.adSalesAmountPercentage.toFixed(2) + "%"
           : text;
       },
       width: 80,
@@ -238,7 +236,7 @@ const columnConstant = {
       dataIndex: "adSalesAmountCr",
       render: (text, record, index) => {
         return record.adSalesAmountCr
-          ? (record.adSalesAmountCr * 100).toFixed(2) + "%"
+          ? record.adSalesAmountCr.toFixed(2) + "%"
           : text;
       },
       width: 80,
