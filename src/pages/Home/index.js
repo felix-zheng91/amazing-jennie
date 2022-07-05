@@ -13,7 +13,7 @@ import { http } from "@/utils";
 import * as echarts from "echarts";
 
 function Home() {
-  const [params, setParams] = useState();
+  const [params, setParams] = useState(null);
 
   async function submitForm(values) {
     values = { ...values, pageSize: 999, current: 1 };
@@ -21,7 +21,7 @@ function Home() {
   }
 
   const domRef = useRef();
-  const [option, setOption] = useState({});
+  const [option, setOption] = useState(null);
 
   useEffect(() => {
     const loadDataset = async () => {
@@ -120,9 +120,13 @@ function Home() {
           </Space>
         }
       >
-        <div>
-          <div ref={domRef} style={{ width: "100%", height: 300 }}></div>
-        </div>
+        {option ? (
+          <div>
+            <div ref={domRef} style={{ width: "100%", height: 300 }}></div>
+          </div>
+        ) : (
+          <Empty />
+        )}
       </ProCard>
     </div>
   );
