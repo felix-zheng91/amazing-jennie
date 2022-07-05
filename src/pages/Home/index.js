@@ -1,5 +1,4 @@
-import Bar from "@/components/Bar";
-import { DatePicker, Input, Space } from "antd";
+import { Empty, Space } from "antd";
 import "./index.scss";
 import {
   ProCard,
@@ -9,51 +8,122 @@ import {
 } from "@ant-design/pro-components";
 import "moment/locale/zh-cn";
 import locale from "antd/es/date-picker/locale/zh_CN";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { http } from "@/utils";
-
-const { RangePicker } = DatePicker;
+import * as echarts from "echarts";
 
 function Home() {
-  const [params, setParams] = useState({});
+  const [params, setParams] = useState();
 
   async function submitForm(values) {
+    values = { ...values, pageSize: 999, current: 1 };
     setParams(values);
-    const res = await http.get("/amazon/analyze-data/list", { ...params });
-    console.log(res);
   }
+
+  const domRef = useRef();
+  const [option, setOption] = useState({});
+
+  useEffect(() => {
+    const loadDataset = async () => {
+      const res = await http.get("/amazon/analyze-data/list", { params });
+      if (res.data.records) {
+        const option = {
+          dataset: {
+            dimensions: ["dataDate", "orderedProductSales"],
+            source: res.data.records,
+          },
+          tooltip: {
+            trigger: "axis",
+            formatter: function (params, ticket, callback) {
+              return (
+                params[0].name +
+                "<br/> 总销售额:" +
+                params[0].value.orderedProductSales
+              );
+            },
+          },
+          xAxis: {
+            type: "category",
+            name: "日期",
+            nameTextStyle: {
+              fontStyle: "italic",
+            },
+            axisLabel: {
+              interval: 0,
+              rotate: -70,
+            },
+          },
+          yAxis: { name: "金额" },
+          series: [{ type: "line", smooth: true, areaStyle: {} }],
+        };
+        setOption(option);
+      }
+    };
+
+    if (params) {
+      console.log("Loaded");
+      loadDataset();
+    }
+  }, [params]);
+
+  useEffect(() => {
+    const chartInit = () => {
+      // 基于准备好的dom，初始化echarts实例
+      const myChart = echarts.init(domRef.current);
+      // 绘制图表
+      myChart.setOption(option);
+      return myChart;
+    };
+    let chart;
+    if (option) {
+      chart = chartInit();
+    }
+    return () => {
+      if (chart) {
+        chart.dispose();
+      }
+    };
+  }, [option]);
 
   return (
     <div style={{ height: "100%" }}>
       <ProCard
         title="数据分析"
         extra={
-          <ProForm
-            layout={"horizontal"}
-            onFinish={submitForm}
-            style={{ height: "100%" }}
-          >
-            <Space>
-              <ProFormDateRangePicker
-                transform={(values) => {
-                  return {
-                    startTime: values ? values[0] : undefined,
-                    endTime: values ? values[1] : undefined,
-                  };
-                }}
-                name={"dateRange"}
-                locale={locale}
-                required={true}
-              />
-              <ProFormText
-                name={"asin"}
-                style={{ width: "100px", marginRight: "10px" }}
-                required={true}
-              />
-            </Space>
-          </ProForm>
+          <Space>
+            <ProForm
+              layout={"horizontal"}
+              onFinish={submitForm}
+              style={{ height: "100%" }}
+            >
+              <Space>
+                <ProFormDateRangePicker
+                  width={260}
+                  transform={(values) => {
+                    return {
+                      startDate: values ? values[0] : undefined,
+                      endDate: values ? values[1] : undefined,
+                    };
+                  }}
+                  name={"dateRange"}
+                  locale={locale}
+                  rules={[{ required: true }]}
+                />
+                <ProFormText
+                  name={"asin"}
+                  width={150}
+                  rules={[{ required: true }]}
+                  className={"text-form"}
+                />
+              </Space>
+            </ProForm>
+          </Space>
         }
-      ></ProCard>
+      >
+        <div>
+          <div ref={domRef} style={{ width: "100%", height: 300 }}></div>
+        </div>
+      </ProCard>
     </div>
   );
 }

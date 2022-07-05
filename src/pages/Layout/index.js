@@ -43,32 +43,18 @@ const menuItems = [
 
 const GeekLayout = () => {
   const { pathname } = useLocation();
-  const { userStore, loginStore, channelStore } = useStore();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    channelStore.loadChannels().then();
-  }, [channelStore]);
-
-  useEffect(() => {
-    userStore.getUserInfo().then();
-  }, [userStore]);
-
-  const logout = () => {
-    loginStore.logout();
-    navigate("/login");
-  };
 
   return (
     <Layout>
       <Header className={"header"}>
         <div className="logo"></div>
         <div className="user-info">
-          <span className="username">{userStore.userInfo.name}</span>
+          {/*<span className="username">{userStore.userInfo.name}</span>*/}
           <span className="user-logout">
             <Popconfirm
               title={"确认退出?"}
-              onConfirm={logout}
+              // onConfirm={logout}
               okText={"退出"}
               cancelText={"取消"}
             >
