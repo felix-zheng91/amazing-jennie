@@ -49,7 +49,7 @@ const GeekLayout = () => {
 
   useEffect(() => {
     axios
-      .get("https://v1.hitokoto.cn?c=d&c=e&c=h&c=i&c=k")
+      .get("https://v1.hitokoto.cn?c=i")
       .then(({ data }) => {
         setHitokoto(data);
       })
@@ -110,13 +110,6 @@ const GeekLayout = () => {
         <Layout className="layout-content" style={{ padding: 20 }}>
           <Outlet></Outlet>
         </Layout>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Ant Design ©2018 Created by Ant UED
-        </Footer>
       </Layout>
     </Layout>
   );

@@ -156,7 +156,18 @@ const SkuAsin = () => {
             showQuickJumper: true,
           }}
           columns={columnConstant.skuAsinColumns}
-          search={false}
+          search
+          search
+          request={async (params = {}, sort, filter) => {
+            const res = await http.get("/amazon/sku-asin/list", {
+              params,
+            });
+            const { records, total } = res.data;
+            setSkuAsinRel({
+              list: records,
+              count: total,
+            });
+          }}
           dateFormatter="string"
           headerTitle={`查询到 ${count} 条数据`}
           toolBarRender={() => [

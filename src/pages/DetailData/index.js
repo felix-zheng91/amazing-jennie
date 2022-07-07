@@ -10,8 +10,8 @@ import { http } from "@/utils";
 import columnConstant from "@/constant/columnConstant";
 
 const DetailData = () => {
-  const [adList, setAdList] = useState({ list: [], count: 0 });
-  const { list, count } = adList;
+  const [detailList, setDetailList] = useState({ list: [], count: 0 });
+  const { list, count } = detailList;
 
   const props = {
     beforeUpload: (file) => {
@@ -41,15 +41,15 @@ const DetailData = () => {
   });
 
   useEffect(() => {
-    const loadSkuAsinRel = async () => {
+    const loadDetailData = async () => {
       const res = await http.get("/amazon/detail-data/list", { params });
       const { records, total } = res.data;
-      setAdList({
+      setDetailList({
         list: records,
         count: total,
       });
     };
-    loadSkuAsinRel().then();
+    loadDetailData().then();
   }, [params]);
 
   const changePage = (current, pageSize) => {
@@ -106,7 +106,17 @@ const DetailData = () => {
             showQuickJumper: true,
           }}
           columns={columnConstant.detailDataColumns}
-          search={false}
+          search
+          request={async (params = {}, sort, filter) => {
+            const res = await http.get("/amazon/detail-data/list", {
+              params,
+            });
+            const { records, total } = res.data;
+            setDetailList({
+              list: records,
+              count: total,
+            });
+          }}
           dateFormatter="string"
           headerTitle={`查询到 ${count} 条数据`}
           toolBarRender={() => [

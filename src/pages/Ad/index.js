@@ -104,7 +104,18 @@ const Ad = () => {
             showQuickJumper: true,
           }}
           columns={columnConstant.adDataColumns}
-          search={false}
+          search
+          search
+          request={async (params = {}, sort, filter) => {
+            const res = await http.get("/amazon/ad/list", {
+              params,
+            });
+            const { records, total } = res.data;
+            setAdList({
+              list: records,
+              count: total,
+            });
+          }}
           dateFormatter="string"
           headerTitle={`查询到 ${count} 条数据`}
           toolBarRender={() => [

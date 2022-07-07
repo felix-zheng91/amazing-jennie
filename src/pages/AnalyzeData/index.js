@@ -10,8 +10,8 @@ import { http } from "@/utils";
 import columnConstant from "@/constant/columnConstant";
 
 const AnalyzeData = () => {
-  const [adList, setAdList] = useState({ list: [], count: 0 });
-  const { list, count } = adList;
+  const [analyzeData, setAnalyzeData] = useState({ list: [], count: 0 });
+  const { list, count } = analyzeData;
 
   const [params, setParams] = useState({
     current: 1,
@@ -19,15 +19,15 @@ const AnalyzeData = () => {
   });
 
   useEffect(() => {
-    const loadSkuAsinRel = async () => {
+    const loadAnalyzeData = async () => {
       const res = await http.get("/amazon/analyze-data/list", { params });
       const { records, total } = res.data;
-      setAdList({
+      setAnalyzeData({
         list: records,
         count: total,
       });
     };
-    loadSkuAsinRel().then();
+    loadAnalyzeData().then();
   }, [params]);
 
   const changePage = (current, pageSize) => {
@@ -84,7 +84,17 @@ const AnalyzeData = () => {
             showQuickJumper: true,
           }}
           columns={columnConstant.analyzeDataColumns}
-          search={false}
+          search
+          request={async (params = {}, sort, filter) => {
+            const res = await http.get("/amazon/analyze-data/list", {
+              params,
+            });
+            const { records, total } = res.data;
+            setAnalyzeData({
+              list: records,
+              count: total,
+            });
+          }}
           dateFormatter="string"
           headerTitle={`查询到 ${count} 条数据`}
           toolBarRender={() => [

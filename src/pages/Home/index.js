@@ -13,6 +13,9 @@ import { useEffect, useRef, useState } from "react";
 import { http } from "@/utils";
 import * as echarts from "echarts";
 import { SearchOutlined } from "@ant-design/icons";
+import moment from "moment";
+
+moment.locale("zh-cn");
 
 function Home() {
   const [params, setParams] = useState(null);
@@ -590,7 +593,6 @@ function Home() {
                   }}
                   label={"时间"}
                   name={"dateRange"}
-                  locale={locale}
                   rules={[{ required: true }]}
                 />
                 <ProFormText

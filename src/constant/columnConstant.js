@@ -1,16 +1,65 @@
 const columnConstant = {
   detailDataColumns: [
-    { title: "日期", dataIndex: "dataDate", width: 100 },
-    { title: "（父）ASIN", dataIndex: "parentAsin", width: 120 },
-    { title: "（子）ASIN", dataIndex: "sonAsin", width: 120 },
-    { title: "商品名称", dataIndex: "productName", ellipsis: true, width: 80 },
+    { title: "账号", dataIndex: "account", width: 80 },
+    {
+      title: "日期",
+      dataIndex: "dataDate",
+      width: 100,
+      valueType: "date",
+      hideInSearch: true,
+    },
+    {
+      title: "日期",
+      dataIndex: "dataDate",
+      width: 100,
+      valueType: "dateRange",
+      search: {
+        transform: (value) => {
+          return {
+            startDate: value[0],
+            endDate: value[1],
+          };
+        },
+      },
+      hideInTable: true,
+    },
+    { title: "（父）ASIN", dataIndex: "parentAsin", width: 120, search: false },
+    {
+      title: "（子）ASIN",
+      dataIndex: "sonAsin",
+      width: 120,
+      search: {
+        transform: (value) => {
+          console.log(value);
+          return { asin: value };
+        },
+      },
+    },
+    {
+      title: "商品名称",
+      dataIndex: "productName",
+      ellipsis: true,
+      width: 80,
+      search: false,
+    },
     {
       title: "会话次数 – 移动应用",
       dataIndex: "sessionCountMobile",
       width: 60,
+      search: false,
     },
-    { title: "会话次数 – 浏览器", dataIndex: "sessionCountWeb", width: 60 },
-    { title: "会话次数 – 总计", dataIndex: "sessionCountAll", width: 60 },
+    {
+      title: "会话次数 – 浏览器",
+      dataIndex: "sessionCountWeb",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "会话次数 – 总计",
+      dataIndex: "sessionCountAll",
+      width: 60,
+      search: false,
+    },
     {
       title: "会话百分比 – 移动应用",
       dataIndex: "sessionPercentageMobile",
@@ -20,6 +69,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "会话百分比 – 浏览器",
@@ -30,6 +80,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "会话百分比 – 总计",
@@ -40,10 +91,26 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "页面浏览量 – 移动应用", dataIndex: "viewCountMobile", width: 60 },
-    { title: "页面浏览量 – 浏览器", dataIndex: "viewCountWeb", width: 60 },
-    { title: "页面浏览量 – 总计", dataIndex: "viewCountAll", width: 60 },
+    {
+      title: "页面浏览量 – 移动应用",
+      dataIndex: "viewCountMobile",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "页面浏览量 – 浏览器",
+      dataIndex: "viewCountWeb",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "页面浏览量 – 总计",
+      dataIndex: "viewCountAll",
+      width: 60,
+      search: false,
+    },
     {
       title: "页面浏览量百分比 – 移动应用",
       dataIndex: "viewCountPercentageMobile",
@@ -53,6 +120,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "页面浏览量百分比 – 浏览器",
@@ -63,6 +131,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "页面浏览量百分比 – 总计",
@@ -73,6 +142,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "推荐报价（购买按钮）百分比",
@@ -83,12 +153,19 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "已订购商品数量", dataIndex: "orderedProductCount", width: 60 },
+    {
+      title: "已订购商品数量",
+      dataIndex: "orderedProductCount",
+      width: 60,
+      search: false,
+    },
     {
       title: "已订购商品数量 - B2B",
       dataIndex: "orderedProductCountB2b",
       width: 60,
+      search: false,
     },
     {
       title: "商品会话百分比",
@@ -99,6 +176,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "商品会话百分比 - B2B",
@@ -109,31 +187,101 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "已订购商品销售额", dataIndex: "orderedProductSales", width: 60 },
+    {
+      title: "已订购商品销售额",
+      dataIndex: "orderedProductSales",
+      width: 60,
+      search: false,
+    },
     {
       title: "已订购商品销售额 - B2B",
       dataIndex: "orderedProductSalesB2b",
       width: 60,
+      search: false,
     },
-    { title: "订单商品总数", dataIndex: "orderProductCount", width: 60 },
+    {
+      title: "订单商品总数",
+      dataIndex: "orderProductCount",
+      width: 60,
+      search: false,
+    },
     {
       title: "订单商品总数 - B2B",
       dataIndex: "orderProductCountB2b",
       width: 60,
+      search: false,
     },
   ],
   analyzeDataColumns: [
-    { title: "日期", dataIndex: "dataDate", width: 100 },
-    { title: "总销售额", dataIndex: "orderedProductSales", width: 80 },
-    { title: "总订单", dataIndex: "orderedProductCount", width: 60 },
-    { title: "自然订单", dataIndex: "natureOrder", width: 60 },
-    { title: "浏览量-移动应用", dataIndex: "viewCountMobile", width: 60 },
-    { title: "浏览量-浏览器", dataIndex: "viewCountWeb", width: 60 },
-    { title: "浏览量", dataIndex: "viewCountAll", width: 60 },
-    { title: "点击-移动应用", dataIndex: "sessionCountMobile", width: 60 },
-    { title: "点击-浏览器", dataIndex: "sessionCountWeb", width: 60 },
-    { title: "点击", dataIndex: "sessionCountAll", width: 60 },
+    { title: "账号", dataIndex: "account", width: 80 },
+    {
+      title: "日期",
+      dataIndex: "dataDate",
+      width: 100,
+      valueType: "date",
+      hideInSearch: true,
+    },
+    {
+      title: "日期",
+      dataIndex: "dataDate",
+      width: 100,
+      valueType: "dateRange",
+      search: {
+        transform: (value) => {
+          return {
+            startDate: value[0],
+            endDate: value[1],
+          };
+        },
+      },
+      hideInTable: true,
+    },
+    {
+      title: "ASIN",
+      dataIndex: "asin",
+      width: 120,
+    },
+    {
+      title: "总销售额",
+      dataIndex: "orderedProductSales",
+      width: 80,
+      search: false,
+    },
+    {
+      title: "总订单",
+      dataIndex: "orderedProductCount",
+      width: 60,
+      search: false,
+    },
+    { title: "自然订单", dataIndex: "natureOrder", width: 60, search: false },
+    {
+      title: "浏览量-移动应用",
+      dataIndex: "viewCountMobile",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "浏览量-浏览器",
+      dataIndex: "viewCountWeb",
+      width: 60,
+      search: false,
+    },
+    { title: "浏览量", dataIndex: "viewCountAll", width: 60, search: false },
+    {
+      title: "点击-移动应用",
+      dataIndex: "sessionCountMobile",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "点击-浏览器",
+      dataIndex: "sessionCountWeb",
+      width: 60,
+      search: false,
+    },
+    { title: "点击", dataIndex: "sessionCountAll", width: 60, search: false },
     {
       title: "点击率-移动应用",
       dataIndex: "sessionPercentageMobile",
@@ -143,6 +291,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "点击率-浏览器",
@@ -153,6 +302,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "点击率",
@@ -163,6 +313,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "业务报告转化率",
@@ -171,9 +322,10 @@ const columnConstant = {
         return record.cr ? record.cr.toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "广告曝光", dataIndex: "displayVol", width: 60 },
-    { title: "广告点击", dataIndex: "clickVol", width: 60 },
+    { title: "广告曝光", dataIndex: "displayVol", width: 60, search: false },
+    { title: "广告点击", dataIndex: "clickVol", width: 60, search: false },
     {
       title: "广告点击率",
       dataIndex: "adCtr",
@@ -181,10 +333,21 @@ const columnConstant = {
         return record.adCtr ? record.adCtr.toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "广告订单量", dataIndex: "adOrderCount", width: 60 },
-    { title: "平均单次点击价格", dataIndex: "clickPricePer", width: 90 },
-    { title: "获客成本", dataIndex: "customCostPer", width: 60 },
+    {
+      title: "广告订单量",
+      dataIndex: "adOrderCount",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "平均单次点击价格",
+      dataIndex: "clickPricePer",
+      width: 90,
+      search: false,
+    },
+    { title: "获客成本", dataIndex: "customCostPer", width: 60, search: false },
     {
       title: "广告转化率",
       dataIndex: "adCr",
@@ -192,9 +355,15 @@ const columnConstant = {
         return record.adCr ? record.adCr.toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "广告花费", dataIndex: "adCost", width: 60 },
-    { title: "广告销售额", dataIndex: "adSalesAmount", width: 60 },
+    { title: "广告花费", dataIndex: "adCost", width: 60, search: false },
+    {
+      title: "广告销售额",
+      dataIndex: "adSalesAmount",
+      width: 60,
+      search: false,
+    },
     {
       title: "广告ACOS",
       dataIndex: "adAcos",
@@ -202,6 +371,7 @@ const columnConstant = {
         return record.adAcos ? record.adAcos.toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "广告订单占比",
@@ -212,6 +382,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "广告费率",
@@ -220,6 +391,7 @@ const columnConstant = {
         return record.adCostRate ? record.adCostRate.toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "广告销售额占比",
@@ -230,6 +402,7 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "广告销售额贡献率",
@@ -240,23 +413,53 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
   ],
   adDataColumns: [
-    { title: "开始日期", dataIndex: "dataDate", width: 100 },
-    // {
-    //   title: "广告组合名称",
-    //   dataIndex: "adCollectionName",
-    //   ellipsis: true,
-    //   width: 60,
-    // },
-    { title: "货币", dataIndex: "ccyCode", width: 50 },
-    { title: "广告活动名称", dataIndex: "adName", width: 160 },
-    { title: "广告组名称", dataIndex: "adGroupName", width: 120 },
-    { title: "广告SKU", dataIndex: "msku", width: 180 },
+    { title: "账号", dataIndex: "account", width: 80 },
+    {
+      title: "日期",
+      dataIndex: "dataDate",
+      width: 100,
+      valueType: "date",
+      hideInSearch: true,
+    },
+    {
+      title: "日期",
+      dataIndex: "dataDate",
+      width: 100,
+      valueType: "dateRange",
+      search: {
+        transform: (value) => {
+          return {
+            startDate: value[0],
+            endDate: value[1],
+          };
+        },
+      },
+      hideInTable: true,
+    },
+    {
+      title: "广告组合名称",
+      dataIndex: "adCollectionName",
+      ellipsis: true,
+      width: 60,
+      hideInTable: true,
+      search: false,
+    },
+    { title: "货币", dataIndex: "ccyCode", width: 50, search: false },
+    { title: "广告活动名称", dataIndex: "adName", width: 160, search: false },
+    {
+      title: "广告组名称",
+      dataIndex: "adGroupName",
+      width: 120,
+      search: false,
+    },
+    { title: "广告SKU", dataIndex: "msku", width: 180, search: false },
     { title: "广告ASIN", dataIndex: "asin", width: 120 },
-    { title: "展示量", dataIndex: "displayVol", width: 60 },
-    { title: "点击量", dataIndex: "clickVol", width: 40 },
+    { title: "展示量", dataIndex: "displayVol", width: 60, search: false },
+    { title: "点击量", dataIndex: "clickVol", width: 40, search: false },
     {
       title: "点击率(CTR)",
       dataIndex: "ctr",
@@ -265,10 +468,16 @@ const columnConstant = {
         return record.ctr ? (record.ctr * 100).toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "每次点击成本(CPC)", dataIndex: "cpc", width: 60 },
-    { title: "花费", dataIndex: "cost", width: 60 },
-    { title: "7天总销售额", dataIndex: "sevenSalesAmount", width: 60 },
+    { title: "每次点击成本(CPC)", dataIndex: "cpc", width: 60, search: false },
+    { title: "花费", dataIndex: "cost", width: 60, search: false },
+    {
+      title: "7天总销售额",
+      dataIndex: "sevenSalesAmount",
+      width: 60,
+      search: false,
+    },
     {
       title: "广告成本销售比(ACOS)",
       dataIndex: "acos",
@@ -277,6 +486,7 @@ const columnConstant = {
         return record.acos ? (record.acos * 100).toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
     {
       title: "投入产出比(ROAS)",
@@ -285,9 +495,20 @@ const columnConstant = {
         return record.roas ? (record.roas * 100).toFixed(2) + "%" : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "7天总订单数(#)", dataIndex: "sevenOrders", width: 60 },
-    { title: "7天总销售量(#)", dataIndex: "sevenSales", width: 60 },
+    {
+      title: "7天总订单数(#)",
+      dataIndex: "sevenOrders",
+      width: 60,
+      search: false,
+    },
+    {
+      title: "7天总销售量(#)",
+      dataIndex: "sevenSales",
+      width: 60,
+      search: false,
+    },
     {
       title: "7天的转化率",
       dataIndex: "sevenConversionRate",
@@ -297,22 +518,31 @@ const columnConstant = {
           : text;
       },
       width: 80,
+      search: false,
     },
-    { title: "7天内广告SKU销售量(#)", dataIndex: "sevenAdSkuSales", width: 60 },
+    {
+      title: "7天内广告SKU销售量(#)",
+      dataIndex: "sevenAdSkuSales",
+      width: 60,
+      search: false,
+    },
     {
       title: "7天内其他SKU销售量(#)",
       dataIndex: "sevenOtherSkuSales",
       width: 60,
+      search: false,
     },
     {
       title: "7天内广告SKU销售额",
       dataIndex: "sevenAdSkuSalesAmount",
       width: 60,
+      search: false,
     },
     {
       title: "7天内其他SKU销售额",
       dataIndex: "sevenOtherSkuSalesAmount",
       width: 60,
+      search: false,
     },
   ],
   // SKU&ASIN
@@ -324,6 +554,7 @@ const columnConstant = {
     {
       title: "MSKU",
       dataIndex: "msku",
+      search: false,
     },
     {
       title: "ASIN",
@@ -336,10 +567,12 @@ const columnConstant = {
     {
       title: "开售时间",
       dataIndex: "firstSellDate",
+      search: false,
     },
     {
       title: "主链接",
       dataIndex: "mainAccount",
+      search: false,
     },
   ],
 };
