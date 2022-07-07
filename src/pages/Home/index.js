@@ -1,4 +1,4 @@
-import { Empty, Space } from "antd";
+import { Button, Empty, Space } from "antd";
 import "./index.scss";
 import {
   ProCard,
@@ -12,6 +12,7 @@ import locale from "antd/es/date-picker/locale/zh_CN";
 import { useEffect, useRef, useState } from "react";
 import { http } from "@/utils";
 import * as echarts from "echarts";
+import { SearchOutlined } from "@ant-design/icons";
 
 function Home() {
   const [params, setParams] = useState(null);
@@ -36,6 +37,9 @@ function Home() {
         const option = {
           title: {
             text: "详情数据",
+            top: "bottom",
+            left: "auto",
+            z: -999,
           },
           dataset: {
             dimensions: [
@@ -63,6 +67,7 @@ function Home() {
             trigger: "axis",
           },
           legend: {
+            type: "scroll",
             show: true,
             selector: [
               {
@@ -78,7 +83,6 @@ function Home() {
           },
           xAxis: {
             type: "category",
-            name: "日期",
             nameTextStyle: {
               fontStyle: "italic",
             },
@@ -175,6 +179,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -184,6 +195,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -193,6 +211,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -202,6 +227,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -212,7 +244,6 @@ function Home() {
     };
 
     if (params) {
-      console.log("Loaded");
       loadDataset();
     }
   }, [params]);
@@ -225,6 +256,8 @@ function Home() {
         const option = {
           title: {
             text: "广告数据",
+            top: "bottom",
+            left: "auto",
           },
           dataset: {
             dimensions: [
@@ -260,6 +293,7 @@ function Home() {
             // },
           },
           legend: {
+            type: "scroll",
             show: true,
             selector: [
               {
@@ -275,7 +309,6 @@ function Home() {
           },
           xAxis: {
             type: "category",
-            name: "日期",
             nameTextStyle: {
               fontStyle: "italic",
             },
@@ -317,6 +350,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -350,6 +390,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -375,23 +422,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
-              },
-            },
-            {
-              type: "line",
-              smooth: true,
-              areaStyle: {},
-              label: {
-                show: true,
-              },
-              yAxisIndex: 1,
-            },
-            {
-              type: "line",
-              smooth: true,
-              areaStyle: {},
-              label: {
-                show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -401,6 +438,13 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -410,6 +454,45 @@ function Home() {
               areaStyle: {},
               label: {
                 show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
+              },
+              yAxisIndex: 1,
+            },
+            {
+              type: "line",
+              smooth: true,
+              areaStyle: {},
+              label: {
+                show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
+              },
+              yAxisIndex: 1,
+            },
+            {
+              type: "line",
+              smooth: true,
+              areaStyle: {},
+              label: {
+                show: true,
+                formatter: function (params) {
+                  return (
+                    params.data[
+                      params.dimensionNames[params.seriesIndex + 1]
+                    ].toFixed(2) + "%"
+                  );
+                },
               },
               yAxisIndex: 1,
             },
@@ -420,7 +503,6 @@ function Home() {
     };
 
     if (params) {
-      console.log("Loaded");
       loadDataset();
     }
   }, [params]);
@@ -482,6 +564,19 @@ function Home() {
                     display: "none",
                   },
                 },
+                // 完全自定义整个区域
+                render: (props, doms) => {
+                  return [
+                    <Button
+                      shape="circle"
+                      type="primary"
+                      key="submit"
+                      onClick={() => props.form?.submit?.()}
+                      style={{ marginLeft: "16px" }}
+                      icon={<SearchOutlined />}
+                    />,
+                  ];
+                },
               }}
             >
               <Space align={"baseline"}>
@@ -523,9 +618,9 @@ function Home() {
             </ProForm>
           </Space>
         }
-        style={{ height: "100%", overflowY: true }}
+        style={{ height: "100%", overflowY: "auto" }}
       >
-        {optionDetail ? (
+        {optionDetail || optionAd ? (
           <div>
             <div
               ref={domRefDetail}

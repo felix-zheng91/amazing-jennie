@@ -8,8 +8,9 @@ import {
 import "./index.scss";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "@/store";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
+import axios from "axios";
 
 const { Header, Sider } = Layout;
 
@@ -44,12 +45,30 @@ const menuItems = [
 const GeekLayout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [hitokoto, setHitokoto] = useState({ hitokoto: ":D 获取中..." });
+
+  useEffect(() => {
+    axios
+      .get("https://v1.hitokoto.cn?c=d&c=e&c=h&c=i&c=k")
+      .then(({ data }) => {
+        setHitokoto(data);
+      })
+      .catch(console.error);
+    return () => {};
+  }, []);
 
   return (
     <Layout>
       <Header className={"header"}>
         <div className="logo"></div>
         <div className="user-info">
+          <a
+            href={`https://hitokoto.cn/?uuid=${hitokoto.uuid}`}
+            className="hitokoto_text"
+          >
+            {hitokoto.hitokoto} {hitokoto.from ? ` - ${hitokoto.from}` : null}
+            {hitokoto.from_who ? ` - ${hitokoto.from_who}` : null}
+          </a>
           {/*<span className="username">{userStore.userInfo.name}</span>*/}
           <span className="user-logout">
             <Popconfirm
