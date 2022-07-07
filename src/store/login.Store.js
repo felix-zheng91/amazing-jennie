@@ -8,12 +8,12 @@ class LoginStore {
     makeAutoObservable(this);
   }
 
-  getToken = async ({ mobile, code }) => {
-    const res = await http.post("/authorizations", {
-      mobile,
-      code,
+  getToken = async ({ username, password }) => {
+    const res = await http.post("/user/authorizations", {
+      username,
+      password,
     });
-    this.token = res.data.token;
+    this.token = res.data;
     setToken(this.token);
   };
 

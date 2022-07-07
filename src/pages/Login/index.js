@@ -11,7 +11,10 @@ function Login() {
   const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
-      await loginStore.getToken({ mobile: values.mobile, code: values.code });
+      await loginStore.getToken({
+        username: values.username,
+        password: values.password,
+      });
       console.log(loginStore.token);
       navigate("/", { replace: true });
       message.success("Login Success");
@@ -44,30 +47,30 @@ function Login() {
           autoComplete="off"
         >
           <Form.Item
-            name="mobile"
+            name="username"
             rules={[
               {
                 required: true,
                 pattern:
                   /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/,
-                message: "请输入手机号！",
+                message: "用户名！",
               },
             ]}
           >
-            <Input placeholder={"请输入手机号"} />
+            <Input placeholder={"请输入用户名"} />
           </Form.Item>
 
           <Form.Item
-            name="code"
-            // rules={[
-            //   {
-            //     required: true,
-            //     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/,
-            //     message: "请输入验证码！",
-            //   },
-            // ]}
+            name="password"
+            rules={[
+              {
+                required: true,
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/,
+                message: "请输入密码！",
+              },
+            ]}
           >
-            <Input placeholder={"请输入验证码"} />
+            <Input.Password placeholder={"请输入密码"} />
           </Form.Item>
 
           <Form.Item

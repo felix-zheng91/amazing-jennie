@@ -15,7 +15,7 @@ http.interceptors.request.use(
   (config) => {
     const token = getToken();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = token;
     }
     return config;
   },
@@ -30,6 +30,7 @@ http.interceptors.response.use(
     return responce.data;
   },
   (error) => {
+    // debugger;
     if (error.response.status === 401) {
       console.log("login");
       history.push("/login");

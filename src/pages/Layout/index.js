@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import axios from "axios";
 
-const { Header, Sider } = Layout;
+const { Header, Sider, Footer } = Layout;
 
 function getItem(label, key, icon) {
   return {
@@ -57,45 +57,66 @@ const GeekLayout = () => {
     return () => {};
   }, []);
 
+  const [collapsed, setCollapsed] = useState(false);
+
+  const { loginStore } = useStore();
+  const logout = () => {
+    loginStore.logout();
+    navigate("/login");
+  };
   return (
     <Layout>
-      <Header className={"header"}>
-        <div className="logo"></div>
-        <div className="user-info">
-          <a
-            href={`https://hitokoto.cn/?uuid=${hitokoto.uuid}`}
-            className="hitokoto_text"
-          >
-            {hitokoto.hitokoto} {hitokoto.from ? ` - ${hitokoto.from}` : null}
-            {hitokoto.from_who ? ` - ${hitokoto.from_who}` : null}
-          </a>
-          {/*<span className="username">{userStore.userInfo.name}</span>*/}
-          <span className="user-logout">
-            <Popconfirm
-              title={"确认退出?"}
-              // onConfirm={logout}
-              okText={"退出"}
-              cancelText={"取消"}
-            >
-              <LogoutOutlined /> 退出
-            </Popconfirm>
-          </span>
-        </div>
-      </Header>
+      <Sider
+        width={200}
+        className={"site-layout-background"}
+        collapsible
+        collapsed={collapsed}
+        theme={"light"}
+        onCollapse={(value) => setCollapsed(value)}
+      >
+        <Menu
+          items={menuItems}
+          mode={"inline"}
+          theme={"light"}
+          defaultSelectedKeys={pathname}
+          selectedKeys={pathname}
+          style={{ height: "100%", borderRight: 0 }}
+        ></Menu>
+      </Sider>
       <Layout>
-        <Sider width={200} className={"site-layout-background"}>
-          <Menu
-            items={menuItems}
-            mode={"inline"}
-            theme={"dark"}
-            defaultSelectedKeys={pathname}
-            selectedKeys={pathname}
-            style={{ height: "100%", borderRight: 0 }}
-          ></Menu>
-        </Sider>
+        <Header className={"header"}>
+          <div className="logo"></div>
+          <div className="user-info">
+            <a
+              href={`https://hitokoto.cn/?uuid=${hitokoto.uuid}`}
+              className="hitokoto_text"
+            >
+              {hitokoto.hitokoto} {hitokoto.from ? ` - ${hitokoto.from}` : null}
+              {hitokoto.from_who ? ` - ${hitokoto.from_who}` : null}
+            </a>
+            {/*<span className="username">{userStore.userInfo.name}</span>*/}
+            <span className="user-logout">
+              <Popconfirm
+                title={"确认退出?"}
+                onConfirm={logout}
+                okText={"退出"}
+                cancelText={"取消"}
+              >
+                <LogoutOutlined /> 退出
+              </Popconfirm>
+            </span>
+          </div>
+        </Header>
         <Layout className="layout-content" style={{ padding: 20 }}>
           <Outlet></Outlet>
         </Layout>
+        <Footer
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
       </Layout>
     </Layout>
   );
