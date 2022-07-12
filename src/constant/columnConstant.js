@@ -346,6 +346,9 @@ const columnConstant = {
       dataIndex: "clickPricePer",
       width: 90,
       search: false,
+      render: (text, record, index) => {
+        return record.clickPricePer ? record.clickPricePer.toFixed(2) : text;
+      },
     },
     { title: "获客成本", dataIndex: "customCostPer", width: 60, search: false },
     {
