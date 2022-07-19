@@ -7,11 +7,12 @@
   background: #fff;
 }
 
-//.logo {
-//  width: 200px;
-//  height: 60px;
-//  background: url("~@/assets/logo.png") no-repeat center / 160px auto;
-//}
+.logo {
+  width: 200px;
+  height: 60px;
+  background: url("https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg") no-repeat 0 / contain;
+  margin-left: 20px;
+}
 
 .layout-content {
   overflow-y: auto;

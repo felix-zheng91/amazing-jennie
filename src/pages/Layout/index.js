@@ -1,14 +1,14 @@
 import { Layout, Menu, Popconfirm } from "antd";
 import {
-  DiffOutlined,
+  AreaChartOutlined,
   EditOutlined,
   HomeOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "@/store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import axios from "axios";
 
@@ -27,13 +27,9 @@ const menuItems = [
   getItem(
     <Link to={"/analyze-data"}>Analyze Data</Link>,
     "/analyze-data",
-    <DiffOutlined />
+    <AreaChartOutlined color={"blue"} />
   ),
-  getItem(
-    <Link to={"/sku-asin"}>ASIN 管理</Link>,
-    "/sku-asin",
-    <DiffOutlined />
-  ),
+  getItem(<Link to={"/sku-asin"}>ASIN 管理</Link>, "/sku-asin"),
   getItem(<Link to={"/ad"}>AD 管理</Link>, "/ad", <EditOutlined />),
   getItem(
     <Link to={"/detail-data"}>DetailData 管理</Link>,
@@ -74,6 +70,7 @@ const GeekLayout = () => {
         theme={"light"}
         onCollapse={(value) => setCollapsed(value)}
       >
+        <div className={"logo"}></div>
         <Menu
           items={menuItems}
           mode={"inline"}
@@ -85,7 +82,6 @@ const GeekLayout = () => {
       </Sider>
       <Layout>
         <Header className={"header"}>
-          <div className="logo"></div>
           <div className="user-info">
             <a
               href={`https://hitokoto.cn/?uuid=${hitokoto.uuid}`}
